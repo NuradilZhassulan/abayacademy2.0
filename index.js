@@ -7,11 +7,16 @@ const addOpScene = require('./modules/addOp')
 const deleteOpScene = require('./modules/deleteOp')
 const addBookScene = require('./modules/addBook')
 const addMonthlyScene = require('./modules/addMonthly')
+const express = require('express');
+const expressApp = express();
 require('dotenv').config()
 
 const bot = text.bot
 const url = text.url
 const BOT_TOKEN = text.BOT_TOKEN
+
+bot.telegram.setWebhook(`${url}/bot${BOT_TOKEN}`);
+expressApp.use(bot.webhookCallback(`/bot${BOT_TOKEN}`));
 
 const stage = new Stage([studentsScene, resultScene, factOPScene, addOpScene, deleteOpScene, addBookScene, addMonthlyScene])
 bot.use(session())
@@ -65,8 +70,15 @@ bot.help((ctx) => ctx.reply('Если возникли вопросы по ра�
 
 // bot.launch()
 
-bot.startWebhook(`${url}/bot${BOT_TOKEN}`);
-console.log(`${url}/bot${BOT_TOKEN}`)
+// bot.startWebhook(`${url}/bot${BOT_TOKEN}`);
+// console.log(`${url}/bot${BOT_TOKEN}`)
+
+expressApp.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+expressApp.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
+});
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
