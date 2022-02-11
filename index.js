@@ -68,7 +68,7 @@ bot.hears('Ежемесячник 🔃', async(ctx)=> {try {ctx.scene.enter('add
 
 bot.help((ctx) => ctx.reply('Если возникли вопросы по разработке, пишите сюда: @zhassulannuradil'))
 
-// bot.launch()
+bot.launch()
 
 // bot.startWebhook(`${url}/bot${BOT_TOKEN}`);
 // console.log(`${url}/bot${BOT_TOKEN}`)
