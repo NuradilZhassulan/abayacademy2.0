@@ -14,6 +14,7 @@ require('dotenv').config()
 const bot = text.bot
 const url = text.url
 const BOT_TOKEN = text.BOT_TOKEN
+const PORT = process.env.PORT || 8080
 
 bot.telegram.setWebhook(`${url}/bot${BOT_TOKEN}`);
 expressApp.use(bot.webhookCallback(`/bot${BOT_TOKEN}`));
@@ -70,14 +71,14 @@ bot.help((ctx) => ctx.reply('Если возникли вопросы по ра�
 
 bot.launch()
 
-// bot.startWebhook(`${url}/bot${BOT_TOKEN}`);
-// console.log(`${url}/bot${BOT_TOKEN}`)
+bot.startWebhook(`${url}/bot${BOT_TOKEN}`);
+console.log(`${url}/bot${BOT_TOKEN}`)
 
 expressApp.get('/', (req, res) => {
     res.send('Hello World!');
 });
-expressApp.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+expressApp.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
